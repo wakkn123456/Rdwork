@@ -14,7 +14,7 @@
       <li *ngFor="let i of todos" [ngClass]="{completed:i.done}">
         <div class="view">
           <input class="toggle" type="checkbox" [(ngModel)]="i.done">
-          <label>{{i.text}}</label>
+          <label>{{i.text | uppercase}}</label>
           <button class="destroy"></button>
         </div>
         <input class="edit" value="Create a TodoMVC template">
