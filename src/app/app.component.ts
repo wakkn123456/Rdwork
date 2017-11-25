@@ -26,6 +26,9 @@ export class AppComponent {
   };
 
   removeAll($event){
-    $event.length = 0;
+    this.todos = this.todos.filter((item)=>{
+      console.info(item.done);
+      return item.done != true;
+    })
   }
 }
