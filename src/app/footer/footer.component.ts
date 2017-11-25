@@ -8,10 +8,14 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 export class FooterComponent implements OnInit {
 
   @Input("count") countdata;
-  @Output() countEvent = new EventEmitter<number>();
+  @Output() removeEvent = new EventEmitter<any>();
   constructor() { }
 
   ngOnInit() {
+  }
+
+  remove(){
+    this.removeEvent.emit(this.countdata);
   }
 
 }

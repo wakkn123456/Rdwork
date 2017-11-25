@@ -30,7 +30,7 @@
     </ul>
   </section>
   <!-- This footer should hidden by default and shown when there are todos -->
-  <app-footer [count]="todos.length"></app-footer>
+  <app-footer [count]="todos" (removeEvent)="removeAll($event)"></app-footer>
 </section>
 <footer class="info">
   <p>Double-click to edit a todo</p>

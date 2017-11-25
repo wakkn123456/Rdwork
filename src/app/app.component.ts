@@ -24,4 +24,8 @@ export class AppComponent {
     this.todo = '';
     console.info(this.todos);
   };
+
+  removeAll($event){
+    $event.length = 0;
+  }
 }
