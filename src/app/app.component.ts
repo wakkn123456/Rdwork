@@ -13,7 +13,7 @@ export class AppComponent {
 
   onEnter = function(value){
     //console.info(value);
-    this.todos.push(value);
+ //   this.todos.push(value);
     this.todos.push(this.todo);
     this.todo = '';
     console.info(this.todos);
