@@ -3,11 +3,11 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 
-
 import { AppComponent } from './app.component';
 import { TitleComponent } from './title/title.component';
 import { FooterComponent } from './footer/footer.component';
 import { FilterPipe } from './filter.pipe';
+import { DataService } from './data.service';
 
 
 @NgModule({
@@ -22,7 +22,7 @@ import { FilterPipe } from './filter.pipe';
     FormsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [DataService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

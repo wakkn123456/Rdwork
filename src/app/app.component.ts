@@ -1,6 +1,7 @@
 import { Component,OnInit } from '@angular/core';
 import { element } from 'protractor';
 import { HttpClient } from '@angular/common/http';
+import { DataService } from './data.service';
 
 @Component({
   selector: 'app-root',
@@ -15,14 +16,13 @@ export class AppComponent implements OnInit {
   isCompleted=false;
   filterType='All';
   istoggleAll = false;
-  apiUrl = 'http://localhost:3000/todos';
 
-  constructor(private http:HttpClient){
+  constructor(private dataSvc:DataService){
 
   }
 
   ngOnInit(){
-    this.http.get<any[]>(this.apiUrl)
+    this.dataSvc.getTodos()
         .subscribe(data =>{
           this.todos = data;
         });
@@ -38,18 +38,23 @@ export class AppComponent implements OnInit {
     this.todos = this.todos.concat(newTodo);
     this.todo = '';
 
-    this.http.post(this.apiUrl,newTodo)
-        .subscribe(data=>{
+    //this.http.post(this.apiUrl,newTodo)
+    this.dataSvc.addTodo(newTodo)
+         .subscribe(data=>{
           this.todos = this.todos.concat(data);
           this.todo = '';
         });
   };
 
-  removeAll($event){
-    this.todos.filter(item=>!item.done)
-        .forEach(item =>{
-          this.removeTodo(item);
-        });
+  removeAll(todo){
+    this.dataSvc.removeTodo(todo)
+    .subscribe(data => {
+      this.todos = this.todos.filter(item => item !== todo);
+    }, error => {
+      // error handling
+    }, () => {
+      // completed
+});
   };
 
   filterTypeChange($event){
@@ -64,13 +69,17 @@ export class AppComponent implements OnInit {
   };
 
   removeTodo(todo){
-    this.http.delete(`${this.apiUrl}/${todo.id}`)
-        .subscribe(data=>{
-          this.todos = this.todos.filter(item => item !=todo);
-        });
+    this.dataSvc.removeTodo(todo)
+    .subscribe(data => {
+      this.todos = this.todos.filter(item => item !== todo);
+    }, error => {
+      // error handling
+    }, () => {
+      // completed
+});
   }
 
   updateTodo(todo){
-    this.http.put(`${this.apiUrl}/${todo.id}`,todo)
-        .subscribe();
+    this.dataSvc.updateTodo(todo)
+    .subscribe();
   }
