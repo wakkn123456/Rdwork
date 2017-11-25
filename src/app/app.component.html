@@ -13,7 +13,7 @@
       <!-- <li class="completed"> -->
       <li *ngFor = "let i of todos | filter:filterType" [ngClass]="{completed:i.done}">
         <div class="view">
-          <input class="toggle" type="checkbox" [(ngModel)]="i.done">
+          <input class="toggle" type="checkbox" [(ngModel)]="i.done" (ngModelChange)="updateTodo(i)">
           <label>{{i.text | uppercase}}</label>
           <button class="destroy" (click)="removeTodo(i)"></button>
         </div>

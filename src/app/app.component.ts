@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component,OnInit } from '@angular/core';
 import { element } from 'protractor';
 import { HttpClient } from '@angular/common/http';
 
@@ -6,12 +6,8 @@ import { HttpClient } from '@angular/common/http';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
-
-  constructor (http: HttpClient) {
-
-  }
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'app';
   inputHint = '請輸入你要的文字';
   todos:Array<any>=[];
@@ -19,6 +15,19 @@ export class AppComponent {
   isCompleted=false;
   filterType='All';
   istoggleAll = false;
+  apiUrl = 'http://localhost:3000/todos';
+
+  constructor(private http:HttpClient){
+
+  }
+
+  ngOnInit(){
+    this.http.get<any[]>(this.apiUrl)
+        .subscribe(data =>{
+          this.todos = data;
+        });
+  }
+
   onEnter = function(value){
     //console.info(value);
  //   this.todos.push(value);
@@ -28,15 +37,21 @@ export class AppComponent {
     }
     this.todos = this.todos.concat(newTodo);
     this.todo = '';
-    console.info(this.todos);
+
+    this.http.post(this.apiUrl,newTodo)
+        .subscribe(data=>{
+          this.todos = this.todos.concat(data);
+          this.todo = '';
+        });
   };
 
   removeAll($event){
-    this.todos = this.todos.filter((item)=>{
-      console.info(item.done);
-      return item.done != true;
-    })
+    this.todos.filter(item=>!item.done)
+        .forEach(item =>{
+          this.removeTodo(item);
+        });
   };
+
   filterTypeChange($event){
     //console.log($event);
     this.filterType = $event;
@@ -44,11 +59,18 @@ export class AppComponent {
   toggleAllChange(){
     this.todos.forEach(item=>{
       item.done = this.istoggleAll;
+      this.updateTodo(item);
     })
   };
+
   removeTodo(todo){
-    this.todos = this.todos.filter((item)=>{
-      return item !== todo;
-    })
+    this.http.delete(`${this.apiUrl}/${todo.id}`)
+        .subscribe(data=>{
+          this.todos = this.todos.filter(item => item !=todo);
+        });
   }
-}
+
+  updateTodo(todo){
+    this.http.put(`${this.apiUrl}/${todo.id}`,todo)
+        .subscribe();
+  }
