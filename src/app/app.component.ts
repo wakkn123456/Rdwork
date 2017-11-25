@@ -12,6 +12,7 @@ export class AppComponent {
   todos:Array<any>=[];
   todo = '';
   isCompleted=false;
+  filterType='All';
 
   onEnter = function(value){
     //console.info(value);
@@ -30,5 +31,9 @@ export class AppComponent {
       console.info(item.done);
       return item.done != true;
     })
+  };
+  filterTypeChange($event){
+    //console.log($event);
+    this.filterType = $event;
   }
 }

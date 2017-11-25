@@ -9,6 +9,11 @@ export class FooterComponent implements OnInit {
 
   @Input("count") countdata;
   @Output() removeEvent = new EventEmitter<any>();
+
+  @Output() filterTypeEvent = new EventEmitter<string>();
+
+  filterType='All';
+
   constructor() { }
 
   ngOnInit() {
@@ -16,6 +21,10 @@ export class FooterComponent implements OnInit {
 
   remove(){
     this.removeEvent.emit(this.countdata);
+  }
+  changeFilterType(filterType){
+    this.filterType = filterType;
+    this.filterTypeEvent.emit(filterType);
   }
 
 }
