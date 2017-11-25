@@ -8,14 +8,14 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'app';
   inputHint = '請輸入你要的文字';
+  todos:Array<string>=[];
   todo = '';
 
   onEnter = function(value){
-    let todos:Array<string>=[];
     //console.info(value);
-    todos.push(value);
-    todos.push(this.todo);
+    this.todos.push(value);
+    this.todos.push(this.todo);
     this.todo = '';
-    console.info(todos);
+    console.info(this.todos);
   }
 }
