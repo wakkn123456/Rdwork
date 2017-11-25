@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { element } from 'protractor';
 
 @Component({
   selector: 'app-root',
@@ -8,14 +9,19 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'app';
   inputHint = '請輸入你要的文字';
-  todos:Array<string>=[];
+  todos:Array<any>=[];
   todo = '';
+  isCompleted=false;
 
   onEnter = function(value){
     //console.info(value);
  //   this.todos.push(value);
-    this.todos.push(this.todo);
+    let newTodo ={
+      text:this.todo,
+      done:false
+    }
+    this.todos.push(newTodo);
     this.todo = '';
     console.info(this.todos);
-  }
+  };
 }
